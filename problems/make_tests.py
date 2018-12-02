@@ -84,5 +84,23 @@ def make_problem_2_tests():
         arr_to_file([b[::-1]], test_dir + f'{2 * i + 1:02}.exp')
 
 
+def make_problem_3_tests():
+    test_dir = f'problem03/tests/'
+    if not os.path.exists(test_dir):
+        setup_test_dir(3)
+
+    for n in range(1, 10):
+        a = [random.randint(-10000, 10000) for _ in range(n)]
+        arr_to_file(a, test_dir + f'{n:02}.inp')
+        arr_to_file(sorted(a), test_dir + f'{n:02}.exp')
+
+    for n in range(10, 20):
+        sz = random.randint(10, 100000)
+        a = [random.randint(-10000, 10000) for _ in range(sz)]
+        arr_to_file(a, test_dir + f'{n:02}.inp')
+        arr_to_file(sorted(a), test_dir + f'{n:02}.exp')
+
+
 # make_problem_1_tests()
-make_problem_2_tests()
+# make_problem_2_tests()
+make_problem_3_tests()
