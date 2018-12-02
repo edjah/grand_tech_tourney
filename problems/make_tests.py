@@ -103,8 +103,8 @@ def make_problem_3_tests():
 
 def make_problem_4_tests():
     test_dir = f'problem04/tests/'
-    # if not os.path.exists(test_dir):
-    #     setup_test_dir(4)
+    if not os.path.exists(test_dir):
+        setup_test_dir(4)
 
     def two_sum(a, target):
         from collections import Counter
@@ -142,7 +142,29 @@ def make_problem_4_tests():
         arr_to_file([two_sum(a, b)], test_dir + f'{n:02}.exp')
 
 
+def make_problem_5_tests():
+    test_dir = f'problem05/tests/'
+    if not os.path.exists(test_dir):
+        setup_test_dir(5)
+
+    def rev(n):
+        x = 0
+        while n > 0:
+            x = 10 * x + (n % 10)
+            n //= 10
+        return x
+
+    for n in range(1, 21):
+        sz = 0
+        while sz % 10 == 0:
+            sz = random.randint(12312, 10000000)
+
+        arr_to_file([sz], test_dir + f'{n:02}.inp')
+        arr_to_file([rev(sz)], test_dir + f'{n:02}.exp')
+
+
 # make_problem_1_tests()
 # make_problem_2_tests()
 # make_problem_3_tests()
-make_problem_4_tests()
+# make_problem_4_tests()
+make_problem_5_tests()
