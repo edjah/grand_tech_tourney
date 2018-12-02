@@ -13,3 +13,5 @@ function main() {
     let result = search(numbers, search_value);
     console.log(result);
 }
+
+main();

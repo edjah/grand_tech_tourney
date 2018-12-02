@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = '0dd93afabcb285da44449b65664c87ee9a1ecaef27eb27c2'
 
 supported_languages = {'c', 'cpp', 'py', 'js', 'ml'}
-num_problems = 1
+num_problems = 10
 
 
 def run(command, stdin=None):
@@ -57,6 +57,7 @@ def check():
     if not problem or not code or not file_ext or not problem.isdigit():
         return jsonify({'error': 'Bad request'}), 400
     if file_ext not in supported_languages:
+        print(file_ext)
         return jsonify({'error': 'Language not supported'}), 400
     if int(problem) not in range(1, num_problems + 1):
         return jsonify({'error': 'Invalid problem'}), 400

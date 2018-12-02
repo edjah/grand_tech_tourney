@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
     filename = sys.argv[1]
     try:
-        match = re.match(r'problem(\d+)\.([a-z])+', filename.split('/')[-1])
+        match = re.match(r'problem(\d+)\.([a-z]+)', filename.split('/')[-1])
         if not match:
             print(f'Invalid filename: {filename}')
             sys.exit(1)

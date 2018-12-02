@@ -3,7 +3,7 @@ def read_strings():
     while True:
         try:
             inp = input()
-        except Exception:
+        except Exception as e:
             return result
 
         result.append(inp.strip())
