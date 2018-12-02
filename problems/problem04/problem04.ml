@@ -1,4 +1,4 @@
-let search a i =
+let two_sum a target =
   failwith "TODO"
 
 

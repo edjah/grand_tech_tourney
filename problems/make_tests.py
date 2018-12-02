@@ -101,6 +101,48 @@ def make_problem_3_tests():
         arr_to_file(sorted(a), test_dir + f'{n:02}.exp')
 
 
+def make_problem_4_tests():
+    test_dir = f'problem04/tests/'
+    # if not os.path.exists(test_dir):
+    #     setup_test_dir(4)
+
+    def two_sum(a, target):
+        from collections import Counter
+        c = Counter(a)
+
+        for x in a:
+            if c.get(target - x, 0) >= 1:
+                if target - x == x and c.get(target - x, 0) >= 2:
+                    return 1
+                elif target - x != x:
+                    return 1
+
+        return 0
+
+    for n in range(1, 21):
+        sz = random.randint(10, 100000)
+
+        a = [random.randint(-10000, 10000) for _ in range(sz)]
+        seen = set()
+        aa = []
+        for i in a:
+            if i in seen:
+                continue
+            aa.append(i)
+            seen.add(i)
+        a = aa
+
+        b = random.randint(-100000, 100000)
+        if random.random() < 0.2:
+            x = random.randint(0, len(a) - 1)
+            y = random.randint(0, len(a) - 1)
+            b = a[x] + a[y]
+
+        arr_to_file(a + [b], test_dir + f'{n:02}.inp')
+        arr_to_file([two_sum(a, b)], test_dir + f'{n:02}.exp')
+
+
 # make_problem_1_tests()
 # make_problem_2_tests()
-make_problem_3_tests()
+# make_problem_3_tests()
+make_problem_4_tests()
