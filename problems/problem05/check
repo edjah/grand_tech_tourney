@@ -1,4 +1,4 @@
-#!/usr/bin/python3.6
+#!/usr/bin/env python3
 import requests
 import sys
 import re
@@ -29,21 +29,21 @@ def send_check_request(problem_number, file_ext, code):
         print('Error:', json['error'])
         if json['error'] == 'compile':
             print(json['stderr'])
-            p = subprocess.Popen(['eog', '../../does_not_compile.gif'])
+            p = subprocess.Popen(['open', '../../does_not_compile.gif'])
             sleep_dur = 3
         else:
             sys.exit(1)
 
     elif json['status'] == 'OK':
-        p = subprocess.Popen(['eog', '../../correct.gif'])
+        p = subprocess.Popen(['open', '../../correct.gif'])
         sleep_dur = 15
     elif json['status'] == 'Exception':
-        p = subprocess.Popen(['eog', '../../exception_raised.gif'])
+        p = subprocess.Popen(['open', '../../exception_raised.gif'])
         print(json['got'])
         sleep_dur = 3
     elif json['status'] == 'Incorrect':
         print(f'Test {json["test_num"]}')
-        p = subprocess.Popen(['eog', '../../invalid_solution.gif'])
+        p = subprocess.Popen(['open', '../../invalid_solution.gif'])
         print('Expected:', json['expected'])
         print('Got:', json['got'])
         sleep_dur = 3
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     p = subprocess.Popen('python3 ../../application.py',
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE, shell=True)
-    time.sleep(3)
+    time.sleep(1)
 
     if len(sys.argv) != 2:
         print(f'Usage: {sys.argv[0]} filename')
