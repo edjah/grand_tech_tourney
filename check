@@ -1,0 +1,76 @@
+#!/usr/bin/python3.6
+import requests
+import sys
+import re
+import subprocess
+import time
+
+
+SERVER_URL = 'http://localhost:5000'
+
+
+def send_check_request(problem_number, file_ext, code):
+    try:
+        resp = requests.post(SERVER_URL + '/check', {
+            'problem': problem_number,
+            'file_ext': file_ext,
+            'code': code
+        })
+
+        if resp.status_code not in (200, 400):
+            print('Request to server failed!')
+            sys.exit(1)
+    except Exception as e:
+        print(f'Unable to connect to server: {e!r}')
+        sys.exit(1)
+
+    json = resp.json()
+    if 'error' in json:
+        print('Error:', json['error'])
+        if json['error'] == 'compile':
+            print(json['stderr'])
+            p = subprocess.Popen(['eog', 'does_not_compile.gif'])
+            sleep_dur = 3
+        else:
+            sys.exit(1)
+
+    elif json['status'] == 'OK':
+        p = subprocess.Popen(['eog', 'correct.gif'])
+        sleep_dur = 15
+    elif json['status'] == 'Exception':
+        p = subprocess.Popen(['eog', 'exception_raised.gif'])
+        print(json['got'])
+        sleep_dur = 3
+    elif json['status'] == 'Incorrect':
+        print(f'Test {json["test_num"]}')
+        p = subprocess.Popen(['eog', 'invalid_solution.gif'])
+        print('Expected:', json['expected'])
+        print('Got:', json['got'])
+        sleep_dur = 3
+
+    time.sleep(sleep_dur)
+    p.kill()
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print(f'Usage: {sys.argv[0]} filename')
+        sys.exit(1)
+
+    filename = sys.argv[1]
+    try:
+        match = re.match(r'problem(\d+)\.([a-z])+', filename.split('/')[-1])
+        if not match:
+            print(f'Invalid filename: {filename}')
+            sys.exit(1)
+
+        problem_number = int(match.group(1))
+        file_ext = match.group(2)
+
+        with open(filename, 'r') as fp:
+            code = fp.read()
+        send_check_request(problem_number, file_ext, code)
+
+    except Exception as e:
+        print(f'Error: unable to read "{filename}"')
+        print(e)

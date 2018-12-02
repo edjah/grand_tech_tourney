@@ -37,7 +37,7 @@ def make_problem_1_tests():
     arr_to_file([1, 2, 3, 4, 5, 1], test_dir + f'01.inp')
     arr_to_file([0], test_dir + f'01.exp')
 
-    arr_to_file([1, 2, 3, 4, 5, 1], test_dir + f'02.inp')
+    arr_to_file([1, 2, 3, 4, 5, 5], test_dir + f'02.inp')
     arr_to_file([4], test_dir + f'02.exp')
 
     arr_to_file([1, 2, 4, 5, 3], test_dir + f'03.inp')
