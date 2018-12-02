@@ -4,6 +4,15 @@ import secrets
 from flask import Flask, render_template, request, jsonify
 from subprocess import Popen, PIPE
 
+import redis
+import json
+
+r = redis.Redis(
+    host='127.0.0.1',
+    port=6379,
+)
+
+
 app = Flask(__name__)
 app.secret_key = '0dd93afabcb285da44449b65664c87ee9a1ecaef27eb27c2'
 
@@ -101,6 +110,30 @@ def check():
 def index():
     return render_template('index.html')
 
+
+@app.route('/teams', methods=['GET'])
+def teams():
+    s = r.get('teams')
+
+    if s is not None:
+        parsed = json.loads(s)
+    else:
+        parsed = []
+
+    return jsonify(parsed)
+
+    # [
+    #     {
+    #         'name': 'sample',
+    #         'score': 5,
+    #         'handicaps': [],
+    #     },
+    #     {
+    #         'name': 'sample',
+    #         'score': 10,
+    #         'handicaps': ['shots shots', 'shots']
+    #     }
+    # ]
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
