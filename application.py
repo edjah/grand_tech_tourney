@@ -22,7 +22,7 @@ def run(command, stdin=None):
 
 
 def check_code(problem, executable):
-    test_files = sorted(glob.glob(f'problems/problem{problem}/tests/*'))
+    test_files = sorted(glob.glob(f'tests/*'))
     assert len(test_files) % 2 == 0, 'Some test is missing a result'
 
     for i in range(0, len(test_files), 2):
@@ -67,7 +67,7 @@ def check():
     tmp_dir = '/tmp/' + secrets.token_hex(16)
     try:
         os.makedirs(tmp_dir)
-        run(f'cp -r problems/problem{problem}/* {tmp_dir}/')
+        run(f'cp -r * {tmp_dir}/')
 
         with open(tmp_dir + f'/problem{problem}.{file_ext}', 'w') as fp:
             fp.write(code)
